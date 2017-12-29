@@ -2,30 +2,31 @@ from flask import Flask
 from flask import request, abort, jsonify
 from generate_password import generate
 
-nums = '0123456789'
-lower_letters = 'abcdefghijklmnopqrstuvwxyz'
-upper_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-special_chars = '!@#$%^&*()=+/?\|[]{}`~;:,<.>'
-
-default_charsets =[nums, lower_letters, upper_letters, special_chars]
 
 app = Flask(__name__)
 
 
-@app.route('/pwd_gen_server/api/v1.0/generate_password', methods=['GET'])
+@app.route('/pwd_gen/api/v1.0/generate_password', methods=['GET'])
 def generate_password():
     site = request.args.get('site')
     month_key = request.args.get('month_key')
     extra_secret = request.args.get('extra_secret')
     length = request.args.get('length')
-    if not all([site, month_key, extra_secret, length]):
+    # cs: character set
+    cs_num = request.args.get('num')
+    cs_lower = request.args.get('lower')
+    cs_upper = request.args.get('upper')
+    cs_special = request.args.get('special')
+    if not all([site, month_key, extra_secret, length, cs_num, cs_lower, cs_upper, cs_special]):
         abort(400)
 
-    #TODO: get charsets
-    charsets = None
+    charsets = dict(zip(range(4), [int(cs) for cs in [cs_num, cs_lower, cs_upper, cs_special]] ))
 
-    pwd = generate(site, month_key, extra_secret, int(length), charsets or default_charsets)
-    return jsonify({'password': pwd})
+    try:
+        pwd = generate(site, month_key, extra_secret, int(length), charsets)
+        return jsonify({'password': pwd})
+    except ValueError as e:
+        abort(400, e)
 
 
 if __name__ == '__main__':
