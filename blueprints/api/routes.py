@@ -1,12 +1,9 @@
-from flask import Flask
+from . import api
 from flask import request, abort, jsonify
-from generate_password import generate
 
+from helpers.generate_password import generate
 
-app = Flask(__name__)
-
-
-@app.route('/pwd_gen/api/v1.0/generate_password', methods=['GET'])
+@api.route('/generate_password', methods=['GET'])
 def generate_password():
     site = request.args.get('site')
     month_key = request.args.get('month_key')
@@ -27,7 +24,3 @@ def generate_password():
         return jsonify({'password': pwd})
     except ValueError as e:
         abort(400, e)
-
-
-if __name__ == '__main__':
-    app.run()
