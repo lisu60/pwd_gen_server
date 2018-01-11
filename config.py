@@ -1,3 +1,4 @@
-from default_config import *
-
-"""Everything overwrites default configs goes here"""
+DEBUG = False
+SQLALCHEMY_ECHO = False
+GLOBAL_PREFIX = '/pwd_gen'
+BCRYPT_LOG_ROUNDS = 10

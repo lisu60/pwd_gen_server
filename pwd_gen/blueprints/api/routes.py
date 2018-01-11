@@ -1,7 +1,7 @@
 from . import api
 from flask import request, abort, jsonify
 
-from helpers.generate_password import generate
+from pwd_gen.helpers.generate_password import generate
 
 @api.route('/generate_password', methods=['GET'])
 def generate_password():
