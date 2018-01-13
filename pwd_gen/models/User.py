@@ -1,10 +1,10 @@
 from .BaseModel import BaseModel
-from . import db, bcrypt
+from .. import db, bcrypt
 from sqlalchemy.ext.hybrid import hybrid_property
 
 class User(BaseModel):
-    email = db.Column(db.VARCHAR(100), nullable=False);
-    _password = db.Column(db.VARCHAR(128))
+    email = db.Column(db.VARCHAR(100), nullable=False)
+    _password = db.Column(db.VARCHAR(128), nullable=False)
 
     @hybrid_property
     def password(self):
