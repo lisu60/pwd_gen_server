@@ -12,8 +12,8 @@ char_sets = [
 
 def generate(site, month_key, extra_secret, length, char_specs):
 
-    if length < sum(char_specs.values()):
-        raise ValueError('Not enough length to fulfill character specs')
+    #if length < sum(char_specs.values()):
+    #    raise ValueError('Not enough length to fulfill character specs')
 
     # make a seed
     seed_str = site.lower() + month_key + extra_secret
